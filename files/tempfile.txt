@@ -1,0 +1,21 @@
+FreeBSD is a UNIX-like operating system 
+for the i386, amd64, IA-64, arm, MIPS, p
+owerpc, ppc64, PC-98 and UltraSPARC plat
+forms based on U.C. Berkeley's "4.4BSD-L
+ite" release, with some "4.4BSD-Lite2" e
+nhancements. It is also based indirectly
+ on William Jolitz's port of U.C. Berkel
+ey's "Net/2" to the i386, known as "386B
+SD", though very little of the 386BSD co
+de remains. FreeBSD is used by companies
+, Internet Service Providers, researcher
+s, computer professionals, students and 
+home users all over the world in their w
+ork, education and recreation. FreeBSD c
+omes with over 20,000 packages (pre-comp
+iled software that is bundled for easy i
+nstallation), covering a wide range of a
+reas: from server software, databases an
+d web servers, to desktop software, game
+s, web browsers and business software - 
+all free and easy to install.           

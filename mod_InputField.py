@@ -1,5 +1,7 @@
 # -*- coding:utf=8 -*-
 import wx
+import time
+from mod_InitFile import *
 class InputField(wx.TextCtrl):
     def __init__(self, pare):
         wx.TextCtrl.__init__(self,
@@ -15,63 +17,83 @@ class InputField(wx.TextCtrl):
         self.SetEditable(False)
 
 
-        self.defaultFont = wx.Font(pointSize = 18,
+        self.defaultFont = wx.Font(pointSize = 15,
             family = wx.FONTFAMILY_MODERN,
             style = wx.FONTSTYLE_NORMAL,
             weight = wx.FONTWEIGHT_NORMAL)
-
         self.SetDefaultStyle(wx.TextAttr(font = self.defaultFont))
-        self.WriteText("↲")
-        print ord(↲)
+        #print os.getcwd()
+        self.OpenFile(os.getcwd() + "/files/testfile_1.txt");
+        #self.WriteText("Announcing Foresight Linux 2.5.3. Foresight is a Linux distribution for your desktop")
+        #print ord(↲) #FF5151
         self.InsertionPoint = 0
-        #带色字体设置
-        #self.whiteTextAttr = wx.TextAttr(colBack = "white")
-        #self.yellowTextAttr = wx.TextAttr(colBack = "yellow")
-        #self.greenTextAttr = wx.TextAttr(colBack = "green")
-        #self.redTextAttr = wx.TextAttr(colBack = "red")
+        self.errorNum = 0
+        self.rightNum = 0
+        self.isBegin = False
+        self.beginTime = 0.0
+        self.endTime = 0.0
+        #Bind
         self.Bind(wx.EVT_CHAR, self.OnInput)
+    
+    def OpenFile(self, path):
+        file = open(InitFile(path, 40))
+        for line in file:
+            self.WriteText(line)
 
-
-    def ShiftToRight(self):
+    def ShiftToRight(self): #光标右移
         self.InsertionPoint += 1;
-        self.SetInsertionPointBackColor("while")
+        #self.SetInsertionPointBackColor("while")
+        if self.InsertionPoint == self.LastPosition:
+            self.endTime = time.time()
+            self.isBegin = False
+            self.ShowResult()
 
-    def ShiftToLeft(self):
+    def ShiftToLeft(self): #光标左移
         self.InsertionPoint -= 1;
     
-    def SetInsertionPointColor(self, color):
+    def SetInsertionPointColor(self, color): #设置光标位置字体颜色
         self.SetStyle(self.InsertionPoint,
             self.InsertionPoint + 1,
             wx.TextAttr(colText = color))
 
-    def SetInsertionPointBackColor(self, color):
+    def SetInsertionPointBackColor(self, color): #设置光标位置背景颜色
         self.SetStyle(self.InsertionPoint,
             self.InsertionPoint + 1,
             wx.TextAttr(colBack = color))
 
-    def InputRight(self):
+    def InputRight(self): #输入正确
         self.SetInsertionPointColor("green")
         self.ShiftToRight()
+        self.rightNum += 1
 
-    def InputError(self):
+    def InputError(self): #输入错误
         self.SetInsertionPointColor("red")
         self.ShiftToRight()
+        self.errorNum += 1
 
-    def GetInputPointText(self):
+
+    def GetInputPointText(self): #获得光标位字符
         #print self.GetString(self.InsertionPoint,
         #    self.InsertionPoint + 1)
         return self.GetString(self.InsertionPoint,
             self.InsertionPoint + 1)
 
-    def OnInput(self, event):
+    def OnInput(self, event): #键盘输入事件处理函数
+        if self.isBegin == False:
+            self.beginTime = time.time()            
+            self.isBegin = True
+
         if event.GetKeyCode() == ord(self.GetInputPointText()):
-        #print self.InsertionPoint
-        #print "------------------------------"
-        #if event.GetKeyCode() == ord(self.GetString(self.InsertionPoint,
-        #   self.InsertionPoint + 1)):
             self.InputRight()
         else:
             self.InputError()
+
+    def ShowResult(self):
+        resultMessage = "你使用了%d秒，打对%d字母，打错%d字母，平均速度:%d/分钟" % (self.endTime - self.beginTime,
+            self.rightNum,
+            self.errorNum,
+            self.rightNum / (self.endTime - self.beginTime)) 
+        resultBox = wx.MessageBox(resultMessage, caption = "成绩", style = wx.OK)
 
 
 
