@@ -1,1 +1,3 @@
-One day,a young Chinese girl named Hua Mulan hears that the emperor wants lots of young men to join the army.The emperor says that one man from every family must join the army.Mulan is sad.Her father is very old and cannot join the army.Her brother is very young and cannot join either.Mulan wants to help the emperor fight his country.
+#-*- coding:utf=8 -*-
+class PlotFrame(wx.Frame):
+    
