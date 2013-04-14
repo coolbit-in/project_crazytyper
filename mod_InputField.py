@@ -8,7 +8,7 @@ class InputField(wx.TextCtrl):
             parent = pare,
             id = -1,
             name = "InputField",
-            size = (600, 400),
+            size = (809, 600),
             pos = (200, 0),
             style = wx.TE_MULTILINE)
 
@@ -24,19 +24,27 @@ class InputField(wx.TextCtrl):
         self.SetDefaultStyle(wx.TextAttr(font = self.defaultFont))
         #print os.getcwd()
         self.OpenFile(os.getcwd() + "/files/testfile_1.txt");
-        #self.WriteText("Announcing Foresight Linux 2.5.3. Foresight is a Linux distribution for your desktop")
         #print ord(↲) #FF5151
+        self.ReInit()
+
+        #Bind
+        self.Bind(wx.EVT_CHAR, self.OnInput)
+        self.Bind(wx.EVT_LEFT_DOWN, self.OnPass)
+        self.Bind(wx.EVT_RIGHT_DOWN, self.OnPass)
+
+    def ReInit(self):
         self.InsertionPoint = 0
         self.errorNum = 0
         self.rightNum = 0
         self.isBegin = False
         self.beginTime = 0.0
-        self.endTime = 0.0
-        #Bind
-        self.Bind(wx.EVT_CHAR, self.OnInput)
-    
-    def OpenFile(self, path):
-        file = open(InitFile(path, 40))
+        self.endTime = 0.0 
+
+    def OnPass(self, event): #不接受鼠标事件
+        pass
+
+    def OpenFile(self, path): #打开文件
+        file = open(InitFile(path, 60))
         for line in file:
             self.WriteText(line)
 
@@ -47,6 +55,7 @@ class InputField(wx.TextCtrl):
             self.endTime = time.time()
             self.isBegin = False
             self.ShowResult()
+            self.ReInit()
 
     def ShiftToLeft(self): #光标左移
         self.InsertionPoint -= 1;
@@ -88,7 +97,7 @@ class InputField(wx.TextCtrl):
         else:
             self.InputError()
 
-    def ShowResult(self):
+    def ShowResult(self): #显示单次打字结果
         resultMessage = "你使用了%d秒，打对%d字母，打错%d字母，平均速度:%d/分钟" % (self.endTime - self.beginTime,
             self.rightNum,
             self.errorNum,
