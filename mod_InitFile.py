@@ -1,6 +1,6 @@
 # -*- coding:utf=8 -*-
 import os
-#def InitFile(path, x):
+# def InitFile(path, x):
 #    f = open(path, 'r')
 #    line = f.read()
 #    m = len(line)
@@ -15,6 +15,7 @@ import os
 #    g.write(new_line)
 #    g.close()
 #    return os.getcwd() + '/files/tempfile.txt'
+
 
 def InitFile(path):
     oriFile = open(path, "r")
